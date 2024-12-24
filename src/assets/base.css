@@ -1,0 +1,29 @@
+:root {
+  --color-background: white;
+
+  --color-border: rgb(200, 200, 200);
+
+  --color-heading: green;
+  --color-text: black;
+  --color-footer: rgb(200, 200, 200);
+
+  --section-gap: 10rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  /*margin: 0;*/
+  /*font-weight: normal;*/
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 16px;
+}

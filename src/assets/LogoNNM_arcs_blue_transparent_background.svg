@@ -1,0 +1,32 @@
+<svg version="1.1"
+     width="4096"
+     height="640"
+     xmlns="http://www.w3.org/2000/svg">
+    
+    <style>
+        .character {
+            stroke: rgb(0, 106, 167);
+            stroke-width: 32;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-opacity: 1;
+            fill: none;
+        }
+    </style>
+    
+    <defs>
+        <g id="myArc">
+            <path d="M 0 640 A 123 123 0 0 1 768 640"
+                  class="character"
+            />
+        </g>
+    </defs>
+
+    <use href="#myArc" x="384" y="-128"/>
+    
+    <use href="#myArc" x="1280" y="-128"/>
+    
+    <use href="#myArc" x="2176" y="-128"/>
+    <use href="#myArc" x="2944" y="-128"/>
+    
+</svg>
