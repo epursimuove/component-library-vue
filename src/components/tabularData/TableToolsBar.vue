@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { Pagination } from "@/types/type.ts";
+import type { Aggregation, Pagination } from "@/types/type.ts";
 import { computed, type ComputedRef, ref, type Ref } from "vue";
 import { createRandomId, getNumberOfDigits, padStart } from "@/utils/util.ts";
 
 const props = defineProps<{
   pagination: Pagination;
+  aggregation: Aggregation;
 }>();
 
 const {
@@ -20,6 +21,8 @@ const {
   totalNumberOfItems,
   totalNumberOfPages,
 } = props.pagination;
+
+const {displayAllAggregations} = props.aggregation;
 
 const displayTotalNumberOfPages: Ref<boolean> = ref(true);
 
@@ -67,6 +70,15 @@ const infoAboutItems: ComputedRef<string> = computed(() => {
         step="5"
         v-model="rowsPerPage"
       />
+    </div>
+
+    <div>
+      <input
+        :id="`all-aggregation-${componentUuid}`"
+        type="checkbox"
+        v-model="displayAllAggregations"
+      />
+      <label :for="`all-aggregation-${componentUuid}`">All aggregations</label>
     </div>
 
     <div>

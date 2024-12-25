@@ -61,7 +61,6 @@ export type Sorting = {
 };
 
 export type Aggregation = {
-  // TODO Must it be Refs?!?
   sum: Ref<Record<string, number>>;
   min: Ref<Record<string, number>>;
   max: Ref<Record<string, number>>;
@@ -69,6 +68,7 @@ export type Aggregation = {
   median: Ref<Record<string, number>>;
   currentAggregationType: Ref<AggregationType>;
   rotateAggregationType: () => void;
+  displayAllAggregations: Ref<boolean>;
 };
 
 export type Pagination = {

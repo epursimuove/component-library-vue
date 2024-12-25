@@ -7,6 +7,7 @@ const userTableAsJSON: Ref<string> = ref("");
 
 const userDefinedList: Ref<RowItem[]> = ref([
   { hello: "World", foo: false, bar: 987654321 },
+  { hello: "There", foo: true, bar: 123 },
 ]);
 
 const calculateResult = (): void => {

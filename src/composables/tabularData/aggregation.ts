@@ -24,6 +24,8 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
 
   const currentAggregationType: Ref<AggregationType> = ref("sum");
 
+  const displayAllAggregations: Ref<boolean> = ref(false);
+
   const rotateAggregationType = (): void => {
     switch (currentAggregationType.value) {
       case "sum":
@@ -147,5 +149,7 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
 
     currentAggregationType,
     rotateAggregationType,
+
+    displayAllAggregations,
   };
 }
