@@ -11,7 +11,7 @@ describe("useColumnCalculations", () => {
   beforeEach(() => {
     originalList = ref([
       {
-        label: "Testing",
+        state: "Testing",
         theValue: 1234,
       },
     ]);
@@ -32,18 +32,18 @@ describe("useColumnCalculations", () => {
     });
 
     it("columnConfigurations", () => {
-      expect(columnCalculations.columnConfigurations.value).toStrictEqual([
-        {
-          label: "Label",
-          propertyName: "label",
+      expect(columnCalculations.columnConfigurations.value).toStrictEqual({
+        state: {
+          label: "State",
+          propertyName: "state",
           propertyType: "text",
         },
-        {
+        theValue: {
           label: "The value",
           propertyName: "theValue",
           propertyType: "integer",
         },
-      ]);
+      });
     });
   });
 

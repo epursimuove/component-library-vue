@@ -13,14 +13,13 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
   );
 
   watch(originalList, (newList, oldList) => {
-    console.info(
+    console.group(
       `WATCHING: useAggregation received updated list: ${oldList.length} => ${newList.length}`,
     );
 
-    // TODO RECALCULATE AGGREGATION VALUES! CALL THE FUNCTIONALITY BELOW IN SOME WAY. KEEP IT SIMPLE!!
-
     currentAggregationType.value = "sum";
     calculateAggregationValues();
+    console.groupEnd();
   });
 
   const currentAggregationType: Ref<AggregationType> = ref("sum");
@@ -129,69 +128,6 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
   };
 
   calculateAggregationValues();
-
-  // const propertiesToAggregate: string[] = [];
-  // // const propertyTypes: Record<string, PropertyType> = {};
-  // const propertyTypes: Record<string, PropertyType> = getPropertyTypesForObject(
-  //   originalList.value[0], // TODO BETTER IMPLEMENTATION!!!!! Use more than just the first item?!?
-  // );
-  //
-  // Object.entries(propertyTypes).forEach(([propertyName, propertyType]) => {
-  //   console.log("Property", [propertyName, propertyType]);
-  //
-  //   if (
-  //     ["integer", "decimalNumber", "positiveInteger", "boolean"].includes(
-  //       propertyType,
-  //     )
-  //   ) {
-  //     propertiesToAggregate.push(propertyName);
-  //   }
-  // });
-  //
-  // console.info(
-  //   "Properties of right type that can be aggregated",
-  //   propertiesToAggregate,
-  // );
-  //
-  // propertiesToAggregate.forEach((propertyName: string) => {
-  //   // console.log(`Aggregating "${propertyName}"`);
-  //
-  //   const propertyValuesAsNumbers: number[] = originalList.value.map(
-  //     (rowItem: RowItem) => rowItem[propertyName] as number,
-  //   );
-  //
-  //   const sortedList: number[] = propertyValuesAsNumbers.sort((a, b) => a - b);
-  //
-  //   // console.log(`Sorted values for property "${propertyName}"`, sortedList);
-  //
-  //   const initialValue = 0;
-  //   const sumWithInitial = sortedList.reduce(
-  //     (accumulator, currentValue) => accumulator + currentValue,
-  //     initialValue,
-  //   );
-  //
-  //   const numberOfItems: number = sortedList.length;
-  //   let medianValue: number;
-  //   if (numberOfItems % 2 === 0) {
-  //     const lastIndex: number = Math.floor(numberOfItems / 2);
-  //     medianValue = (sortedList[lastIndex - 1] + sortedList[lastIndex]) / 2;
-  //   } else {
-  //     const index: number = Math.floor(numberOfItems / 2);
-  //     medianValue = sortedList[index];
-  //   }
-  //
-  //   sum.value[propertyName] = sumWithInitial;
-  //   if (propertyTypes[propertyName] !== "boolean") {
-  //     min.value[propertyName] = sortedList[0];
-  //     max.value[propertyName] = sortedList[numberOfItems - 1];
-  //     mean.value[propertyName] = Number.parseFloat(
-  //       (sumWithInitial / numberOfItems).toFixed(1),
-  //     );
-  //     median.value[propertyName] = medianValue;
-  //   }
-  // });
-
-  //}
 
   console.table({
     sum: sum.value,

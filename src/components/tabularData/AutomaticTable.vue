@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import {
-  capitalize,
-  getPropertyType,
   getPropertyTypesForObject,
   prettifyPropertyName,
 } from "@/utils/tabularData.ts";
 import {
   computed,
   type ComputedRef,
-  nextTick,
   onBeforeMount,
   onMounted,
   onUpdated,
@@ -18,7 +15,6 @@ import {
   watch,
 } from "vue";
 import type {
-  ColumnConfiguration,
   Pagination,
   PropertyType,
   RowItem,
@@ -190,8 +186,9 @@ console.groupEnd();
             ) in columnConfigurations"
             :key="propertyName"
             :ref="templateRefNames.dynamicColumnWidths"
+            :data-column-id="propertyName"
             :class="propertyType"
-            :style="calculatedColumnStyle[index]"
+            :style="calculatedColumnStyle[propertyName]"
             @click="sortOn(propertyName)"
           >
             <div>
@@ -267,7 +264,7 @@ console.groupEnd();
       <!--      </tfoot>-->
 
       <tfoot>
-        <tr v-show="currentAggregationType === 'sum' || isCalculating">
+        <tr v-show="currentAggregationType === 'sum' || isCalculating || false">
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Sum
           </th>
@@ -279,7 +276,7 @@ console.groupEnd();
             {{ sum[propertyName] }}
           </th>
         </tr>
-        <tr v-show="currentAggregationType === 'min' || isCalculating">
+        <tr v-show="currentAggregationType === 'min' || isCalculating || false">
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Min
           </th>
@@ -291,7 +288,7 @@ console.groupEnd();
             {{ min[propertyName] }}
           </th>
         </tr>
-        <tr v-show="currentAggregationType === 'max' || isCalculating">
+        <tr v-show="currentAggregationType === 'max' || isCalculating || false">
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Max
           </th>
@@ -303,7 +300,9 @@ console.groupEnd();
             {{ max[propertyName] }}
           </th>
         </tr>
-        <tr v-show="currentAggregationType === 'mean' || isCalculating">
+        <tr
+          v-show="currentAggregationType === 'mean' || isCalculating || false"
+        >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Mean
           </th>
@@ -315,7 +314,9 @@ console.groupEnd();
             {{ mean[propertyName] }}
           </th>
         </tr>
-        <tr v-show="currentAggregationType === 'median' || isCalculating">
+        <tr
+          v-show="currentAggregationType === 'median' || isCalculating || false"
+        >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Median
           </th>
@@ -477,10 +478,21 @@ table {
           text-align: start;
         }
 
-        &.countryFlag {
+        &.countryCode {
           font-family: Menlo, "Courier New", monospace;
           color: yellowgreen;
           text-align: start;
+        }
+      }
+    }
+  }
+
+  tfoot {
+    tr {
+      th {
+        &:is(.integer, .decimalNumber, .positiveInteger) {
+          text-align: end;
+          font-family: Menlo, "Courier New", monospace;
         }
       }
     }

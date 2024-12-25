@@ -21,7 +21,7 @@ export type PropertyType =
   | "localTime"
   | "localDateTime"
   | "timestamp"
-  | "countryFlag"
+  | "countryCode"
   | "link";
 
 export type PropertyValue = string | number | boolean | null | undefined;
@@ -49,8 +49,8 @@ export type ColumnCalculations = {
   // >;
   // calculatedColumnWidthsInPixels: Ref<number[], number[]>;
   calculatedColumnStyleForRowNumberColumn: Ref<string>;
-  calculatedColumnStyle: Ref<string[]>;
-  columnConfigurations: ComputedRef<ColumnConfiguration[]>;
+  calculatedColumnStyle: Ref<Record<string, string>>;
+  columnConfigurations: ComputedRef<Record<string, ColumnConfiguration>>;
 };
 
 export type Sorting = {

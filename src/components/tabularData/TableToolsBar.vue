@@ -161,13 +161,11 @@ button {
 }
 
 @media screen and (min-width: 600px) {
-
   .table-tools {
     flex-direction: row;
     justify-content: flex-start;
     gap: 2rem;
     align-items: center;
-
   }
 }
 </style>

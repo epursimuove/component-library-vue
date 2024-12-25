@@ -7,12 +7,10 @@ const props = defineProps<{
   propertyType: PropertyType;
   propertyValue: PropertyValue;
 }>();
-
 </script>
 
 <template>
   <td :class="props.propertyType">
-
     <template v-if="props.propertyType === 'boolean'">
       <template v-if="propertyValue">&checkmark;</template>
     </template>
@@ -21,8 +19,8 @@ const props = defineProps<{
       <template v-if="propertyValue">{{ propertyValue }}</template>
     </template>
 
-    <template v-else-if="props.propertyType === 'countryFlag'">
-      {{getFlagEmoji(propertyValue as string)}} {{propertyValue}}
+    <template v-else-if="props.propertyType === 'countryCode'">
+      {{ getFlagEmoji(propertyValue as string) }} {{ propertyValue }}
     </template>
 
     <template v-else>

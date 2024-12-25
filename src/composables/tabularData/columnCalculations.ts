@@ -23,7 +23,7 @@ export function useColumnCalculations(
     number | undefined
   > = ref();
 
-  const calculatedColumnWidthsInPixels: Ref<number[]> = ref([]);
+  const calculatedColumnWidthsInPixels: Ref<Record<string, number>> = ref({});
 
   const calculatedColumnStyleForRowNumberColumn: ComputedRef<string> = computed(
     () => {
@@ -33,34 +33,52 @@ export function useColumnCalculations(
     },
   );
 
-  const calculatedColumnStyle: ComputedRef<string[]> = computed(() => {
-    return calculatedColumnWidthsInPixels.value.map(
-      (widthInPixels: number): string => {
-        return widthInPixels
-          ? `min-width: ${widthInPixels}px; width: ${widthInPixels}px; max-width: ${widthInPixels}px;`
-          : "";
-      },
-    );
-  });
+  const calculatedColumnStyle: ComputedRef<Record<string, string>> = computed(
+    () => {
+      const calculatedColumnStyle: Record<string, string> = {};
 
-  const calculateColumnWidths = () => {
+      Object.entries(calculatedColumnWidthsInPixels.value).forEach(
+        ([propertyName, widthInPixels]): void => {
+          calculatedColumnStyle[propertyName] = widthInPixels
+            ? `min-width: ${widthInPixels}px; width: ${widthInPixels}px; max-width: ${widthInPixels}px;`
+            : "";
+        },
+      );
+
+      return calculatedColumnStyle;
+    },
+  );
+
+  const calculateColumnWidths = (): void => {
     if (rowNumberColumnWidthRef.value) {
       calculatedColumnWidthInPixelsForRowNumberColumn.value =
         rowNumberColumnWidthRef.value.clientWidth;
     }
 
-    if (dynamicColumnWidthsRefs.value) {
-      calculatedColumnWidthsInPixels.value = dynamicColumnWidthsRefs.value.map(
-        (tableCellElement: HTMLTableCellElement, index) => {
-          columnConfigurations.value[index].width =
-            `${tableCellElement.clientWidth}px`;
+    const columnWidthsInPixels: Record<string, number> = {};
 
-          return tableCellElement.clientWidth;
+    if (dynamicColumnWidthsRefs.value) {
+      dynamicColumnWidthsRefs.value.forEach(
+        (tableCellElement: HTMLTableCellElement, index) => {
+          const columnPropertyName: string | undefined =
+            tableCellElement.dataset["columnId"];
+
+          if (columnPropertyName) {
+            // TODO Are both below needed?!?
+            columnConfigurations.value[columnPropertyName].width =
+              `${tableCellElement.clientWidth}px`;
+
+            columnWidthsInPixels[columnPropertyName] =
+              tableCellElement.clientWidth;
+          }
         },
       );
+
+      calculatedColumnWidthsInPixels.value = columnWidthsInPixels;
     }
 
     console.table(calculatedColumnWidthsInPixels.value);
+    console.table(columnConfigurations.value);
   };
 
   const calculateColumnWidthsAndDisplayData = async () => {
@@ -70,14 +88,17 @@ export function useColumnCalculations(
     // - Save the widths to the TH style attribute for each column.
     // - Display only the first page of table.
 
+    isCalculating.value = true;
+
+    console.log("Awaiting next tick 1");
+    await nextTick();
+
     console.group(
       `Calculating column widths for ${dynamicColumnWidthsRefs.value?.length} columns`,
     );
 
-    isCalculating.value = true;
-
-    console.log("Awaiting next tick");
-    await nextTick();
+    // console.log("Awaiting next tick 2");
+    // await nextTick();
 
     calculateColumnWidths();
 
@@ -86,8 +107,8 @@ export function useColumnCalculations(
     console.groupEnd();
   };
 
-  const columnConfigurations: ComputedRef<ColumnConfiguration[]> = computed(
-    () => {
+  const columnConfigurations: ComputedRef<Record<string, ColumnConfiguration>> =
+    computed(() => {
       const firstItemInList: RowItem = originalList.value[0]; // TODO Use more values to make a better decision?!?
 
       const objectProperties: [string, PropertyValue][] =
@@ -97,26 +118,25 @@ export function useColumnCalculations(
         `Deciding column configurations from object with ${objectProperties.length} properties`,
       );
 
-      const columnConfigurations: ColumnConfiguration[] = objectProperties.map(
-        ([propertyName, propertyValue]): ColumnConfiguration => {
-          const columnConfiguration: ColumnConfiguration = {
-            label: prettifyPropertyName(propertyName),
-            propertyName,
-            propertyType: getPropertyType(propertyValue),
-            // width: "123px",
-          };
+      const columnConfigurations: Record<string, ColumnConfiguration> = {};
 
-          return columnConfiguration;
-        },
-      );
+      objectProperties.forEach(([propertyName, propertyValue]): void => {
+        const columnConfiguration: ColumnConfiguration = {
+          label: prettifyPropertyName(propertyName),
+          propertyName,
+          propertyType: getPropertyType(propertyValue),
+          // width: "123px",
+        };
+
+        columnConfigurations[propertyName] = columnConfiguration;
+      });
 
       console.table(columnConfigurations);
 
       console.groupEnd();
 
       return columnConfigurations;
-    },
-  );
+    });
 
   console.groupEnd();
 

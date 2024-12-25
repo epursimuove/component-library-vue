@@ -17,12 +17,13 @@ export function useSorting(originalList: Ref<RowItem[]>): Sorting {
   );
 
   watch(originalList, (newList, oldList) => {
-    console.info(
+    console.group(
       `WATCHING: useSorting received updated list: ${oldList.length} => ${newList.length}`,
     );
     sortedList.value = newList;
     currentlySortedOnPropertyName.value = "";
     sortOrder.value = "ascending";
+    console.groupEnd();
   });
 
   const sortedList: Ref<RowItem[]> = ref(originalList);

@@ -84,8 +84,8 @@ export const getPropertyTypesForObject = (
       propertyTypes[propertyName] = "decimalNumber";
     } else if (propertyName === "numberOfChildren") {
       propertyTypes[propertyName] = "positiveInteger";
-    } else if (propertyName === "countryFlag") {
-      propertyTypes[propertyName] = "countryFlag";
+    } else if (propertyName === "countryCode") {
+      propertyTypes[propertyName] = "countryCode";
     }
 
     //console.log("entry", [propertyName, propertyValue], propertyType);

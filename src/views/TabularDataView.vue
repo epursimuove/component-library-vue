@@ -52,19 +52,19 @@ const reorderList = () => {
 
   <AutomaticTable
     :list="[
-      { countryName: 'Sweden', countryFlag: 'SE' },
-      { countryName: 'Finland', countryFlag: 'FI' },
-      { countryName: 'Norway', countryFlag: 'NO' },
-      { countryName: 'Denmark', countryFlag: 'DK' },
-      { countryName: 'Iceland', countryFlag: 'IS' },
-      { countryName: 'France', countryFlag: 'FR' },
-      { countryName: 'Germany', countryFlag: 'DE' },
-      { countryName: 'Poland', countryFlag: 'PL' },
-      { countryName: 'Great Britain', countryFlag: 'GB' },
-      { countryName: 'Ireland', countryFlag: 'IE' },
-      { countryName: 'Italy', countryFlag: 'IT' },
-      { countryName: 'Spain', countryFlag: 'ES' },
-      { countryName: 'Portugal', countryFlag: 'PT' },
+      { countryName: 'Sweden', countryCode: 'SE' },
+      { countryName: 'Finland', countryCode: 'FI' },
+      { countryName: 'Norway', countryCode: 'NO' },
+      { countryName: 'Denmark', countryCode: 'DK' },
+      { countryName: 'Iceland', countryCode: 'IS' },
+      { countryName: 'France', countryCode: 'FR' },
+      { countryName: 'Germany', countryCode: 'DE' },
+      { countryName: 'Poland', countryCode: 'PL' },
+      { countryName: 'Great Britain', countryCode: 'GB' },
+      { countryName: 'Ireland', countryCode: 'IE' },
+      { countryName: 'Italy', countryCode: 'IT' },
+      { countryName: 'Spain', countryCode: 'ES' },
+      { countryName: 'Portugal', countryCode: 'PT' },
     ]"
     :caption="`Countries`"
   />

@@ -55,12 +55,13 @@ export function usePagination(originalList: Ref<RowItem[]>): Pagination {
   watch(
     originalList,
     (newList: RowItem[], oldList: RowItem[] | undefined): void => {
-      console.info(
+      console.group(
         `WATCHING: usePagination received updated list: ${oldList?.length} => ${newList.length}`,
       );
 
       currentPage.value = 1;
       displayCurrentPage();
+      console.groupEnd();
     },
     { immediate: true, deep: 1 },
   );

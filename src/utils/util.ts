@@ -8,9 +8,9 @@ export const padStart = (n: number, numberOfCharacters: number): string =>
   n.toString(10).padStart(numberOfCharacters);
 
 export function getFlagEmoji(countryCode: string): string {
-  const codePoints = countryCode
+  const codePoints: number[] = countryCode
     .toUpperCase()
     .split("")
-    .map(char => 127397 + char.charCodeAt(0));
+    .map((char: string) => 127397 + char.charCodeAt(0));
   return String.fromCodePoint(...codePoints);
 }
