@@ -19,7 +19,7 @@ import type {
   Pagination,
   PropertyType,
   RowItem,
-  Sorting
+  Sorting,
 } from "@/types/type.ts";
 import CellData from "@/components/tabularData/CellData.vue";
 import { useSorting } from "@/composables/tabularData/sorting.ts";
@@ -268,7 +268,14 @@ console.groupEnd();
       <!--      </tfoot>-->
 
       <tfoot>
-        <tr v-show="currentAggregationType === 'sum' || isCalculating || displayAllAggregations" :class="{'all-aggregation-displayed': displayAllAggregations}">
+        <tr
+          v-show="
+            currentAggregationType === 'sum' ||
+            isCalculating ||
+            displayAllAggregations
+          "
+          :class="{ 'all-aggregation-displayed': displayAllAggregations }"
+        >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Sum
           </th>
@@ -280,7 +287,14 @@ console.groupEnd();
             {{ sum[propertyName] }}
           </th>
         </tr>
-        <tr v-show="currentAggregationType === 'min' || isCalculating || displayAllAggregations" :class="{'all-aggregation-displayed': displayAllAggregations}">
+        <tr
+          v-show="
+            currentAggregationType === 'min' ||
+            isCalculating ||
+            displayAllAggregations
+          "
+          :class="{ 'all-aggregation-displayed': displayAllAggregations }"
+        >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Min
           </th>
@@ -292,7 +306,14 @@ console.groupEnd();
             {{ min[propertyName] }}
           </th>
         </tr>
-        <tr v-show="currentAggregationType === 'max' || isCalculating || displayAllAggregations" :class="{'all-aggregation-displayed': displayAllAggregations}">
+        <tr
+          v-show="
+            currentAggregationType === 'max' ||
+            isCalculating ||
+            displayAllAggregations
+          "
+          :class="{ 'all-aggregation-displayed': displayAllAggregations }"
+        >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Max
           </th>
@@ -305,7 +326,12 @@ console.groupEnd();
           </th>
         </tr>
         <tr
-          v-show="currentAggregationType === 'mean' || isCalculating || displayAllAggregations" :class="{'all-aggregation-displayed': displayAllAggregations}"
+          v-show="
+            currentAggregationType === 'mean' ||
+            isCalculating ||
+            displayAllAggregations
+          "
+          :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Mean
@@ -319,7 +345,12 @@ console.groupEnd();
           </th>
         </tr>
         <tr
-          v-show="currentAggregationType === 'median' || isCalculating || displayAllAggregations" :class="{'all-aggregation-displayed': displayAllAggregations}"
+          v-show="
+            currentAggregationType === 'median' ||
+            isCalculating ||
+            displayAllAggregations
+          "
+          :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
           <th class="aggregation-toggler" @click="rotateAggregationType">
             Median
@@ -508,7 +539,6 @@ table {
         /*background-color: rgb(250, 250, 100, 35%);*/
         background-color: rgb(255, 255, 0, 35%);
       }
-
     }
   }
 }

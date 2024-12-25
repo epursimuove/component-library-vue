@@ -64,7 +64,12 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
       median.value = {};
     }
 
-    const propertiesToAggregate: string[] = [];
+    type PropertiesToAggregate = {
+      propertyName: string;
+      propertyType: PropertyType;
+    };
+
+    const propertiesToAggregate: PropertiesToAggregate[] = [];
     // const propertyTypes: Record<string, PropertyType> = {};
     const propertyTypes: Record<string, PropertyType> =
       getPropertyTypesForObject(
@@ -75,11 +80,15 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
       console.log("Property", [propertyName, propertyType]);
 
       if (
-        ["integer", "decimalNumber", "positiveInteger", "boolean"].includes(
-          propertyType,
-        )
+        [
+          "integer",
+          "decimalNumber",
+          "positiveInteger",
+          "boolean",
+          "text",
+        ].includes(propertyType)
       ) {
-        propertiesToAggregate.push(propertyName);
+        propertiesToAggregate.push({ propertyName, propertyType });
       }
     });
 
@@ -88,12 +97,17 @@ export function useAggregation(originalList: Ref<RowItem[]>): Aggregation {
       propertiesToAggregate,
     );
 
-    propertiesToAggregate.forEach((propertyName: string) => {
+    propertiesToAggregate.forEach(({ propertyName, propertyType }) => {
       // console.log(`Aggregating "${propertyName}"`);
 
-      const propertyValuesAsNumbers: number[] = originalList.value.map(
-        (rowItem: RowItem) => rowItem[propertyName] as number,
-      );
+      const propertyValuesAsNumbers: number[] =
+        propertyType === "text"
+          ? originalList.value.map(
+              (rowItem: RowItem) => (rowItem[propertyName] as string).length,
+            )
+          : originalList.value.map(
+              (rowItem: RowItem) => rowItem[propertyName] as number,
+            );
 
       const sortedList: number[] = propertyValuesAsNumbers.sort(
         (a, b) => a - b,

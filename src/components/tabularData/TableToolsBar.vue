@@ -22,7 +22,7 @@ const {
   totalNumberOfPages,
 } = props.pagination;
 
-const {displayAllAggregations} = props.aggregation;
+const { displayAllAggregations } = props.aggregation;
 
 const displayTotalNumberOfPages: Ref<boolean> = ref(true);
 
