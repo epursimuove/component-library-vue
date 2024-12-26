@@ -3,12 +3,24 @@ import AutomaticTable from "@/components/tabularData/AutomaticTable.vue";
 import { ref, type Ref } from "vue";
 import type { RowItem } from "@/types/type.ts";
 
-const userTableAsJSON: Ref<string> = ref("");
-
 const userDefinedList: Ref<RowItem[]> = ref([
-  { hello: "World", foo: false, bar: 987654321 },
-  { hello: "There", foo: true, bar: 123 },
+  {
+    hello: "World",
+    foo: false,
+    bar: 987654321,
+    pangram: "The quick brown fox jumps over the lazy dog",
+  },
+  {
+    hello: "There",
+    foo: true,
+    bar: 123,
+    pangram: "Yxmördaren Julia Blomqvist på fäktning i Schweiz",
+  },
 ]);
+
+const userTableAsJSON: Ref<string> = ref(
+  JSON.stringify(userDefinedList.value, null, 2),
+);
 
 const calculateResult = (): void => {
   if (userTableAsJSON.value.length > 0) {

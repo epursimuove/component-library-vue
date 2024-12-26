@@ -79,13 +79,17 @@ export const getPropertyTypesForObject = (
 
     propertyTypes[propertyName] = propertyType;
 
-    // TODO JUST FOR TESTING!!! REMOVE WHEN NOT NEEDED ANYMORE!!
+    // TODO JUST FOR TESTING!!! OR?!? PERHAPS REMOVE WHEN NOT NEEDED ANYMORE!!
     if (propertyName === "salary") {
       propertyTypes[propertyName] = "decimalNumber";
     } else if (propertyName === "numberOfChildren") {
       propertyTypes[propertyName] = "positiveInteger";
     } else if (propertyName === "countryCode") {
       propertyTypes[propertyName] = "countryCode";
+    } else if (propertyName === "percentage") {
+      propertyTypes[propertyName] = "percentage";
+    } else if (propertyName === "promille") {
+      propertyTypes[propertyName] = "promille";
     }
 
     //console.log("entry", [propertyName, propertyValue], propertyType);
@@ -374,6 +378,8 @@ export const createDummyNumberList = (numberOfItems?: number): RowItem[] => {
       square: n * n,
       firstRandom: createRandomId(100),
       secondRandom: createRandomId(1000),
+      percentage: createRandomId(100) > 50 ? 1 / createRandomId(1000) : 0,
+      promille: createRandomId(100) > 50 ? 1 / createRandomId(10000) : 0,
     });
   }
 
@@ -406,3 +412,67 @@ export const createDummyUserList = (): DummyUser[] => {
 
   return dummyList;
 };
+
+function createDummyListOfCountries(): Record<string, PropertyValue>[] {
+  const countries = [
+    { countryName: "Sweden", countryCode: "SE", languageCode: "sv" },
+    { countryName: "Finland", countryCode: "FI", languageCode: "fi" },
+    { countryName: "Norway", countryCode: "NO", languageCode: "no" },
+    { countryName: "Denmark", countryCode: "DK", languageCode: "da" },
+    { countryName: "Iceland", countryCode: "IS", languageCode: "is" },
+    { countryName: "France", countryCode: "FR", languageCode: "fr" },
+    { countryName: "Germany", countryCode: "DE", languageCode: "de" },
+    { countryName: "Poland", countryCode: "PL", languageCode: "pl" },
+    { countryName: "Great Britain", countryCode: "GB", languageCode: "en" },
+    { countryName: "Ireland", countryCode: "IE", languageCode: "en" },
+    { countryName: "Italy", countryCode: "IT", languageCode: "it" },
+    { countryName: "Spain", countryCode: "ES", languageCode: "es" },
+    { countryName: "Portugal", countryCode: "PT", languageCode: "pt" },
+    { countryName: "Greece", countryCode: "GR", languageCode: "el" },
+    { countryName: "Canada", countryCode: "CA", languageCode: "en" },
+    { countryName: "United States", countryCode: "US", languageCode: "en" },
+    { countryName: "India", countryCode: "IN", languageCode: "en" },
+    { countryName: "Australia", countryCode: "AU", languageCode: "en" },
+    { countryName: "Japan", countryCode: "JP", languageCode: "ja" },
+  ];
+
+  const now: Date = new Date();
+
+  countries.forEach(
+    (country: {
+      countryName: string;
+      countryCode: string;
+      languageCode: string;
+      name?: string;
+      language?: string;
+      name2?: string;
+      language2?: string;
+      dateFormat?: string;
+    }): void => {
+      country.name = new Intl.DisplayNames([country.languageCode], {
+        type: "region",
+      }).of(country.countryCode);
+
+      country.language = new Intl.DisplayNames([country.languageCode], {
+        type: "language",
+      }).of(country.languageCode);
+
+      country.name2 = new Intl.DisplayNames(["en"], {
+        type: "region",
+      }).of(country.countryCode);
+
+      country.language2 = new Intl.DisplayNames(["en"], {
+        type: "language",
+      }).of(country.languageCode);
+
+      country.dateFormat = new Intl.DateTimeFormat(
+        `${country.languageCode}-${country.countryCode}`,
+      ).format(now);
+    },
+  );
+
+  return countries;
+}
+
+export const dummyListOfCountries: Record<string, PropertyValue>[] =
+  createDummyListOfCountries();

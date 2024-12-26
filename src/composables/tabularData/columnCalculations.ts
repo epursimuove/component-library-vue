@@ -51,8 +51,9 @@ export function useColumnCalculations(
 
   const calculateColumnWidths = (): void => {
     if (rowNumberColumnWidthRef.value) {
-      calculatedColumnWidthInPixelsForRowNumberColumn.value =
-        rowNumberColumnWidthRef.value.clientWidth;
+      calculatedColumnWidthInPixelsForRowNumberColumn.value = Math.ceil(
+        rowNumberColumnWidthRef.value.getBoundingClientRect().width,
+      );
     }
 
     const columnWidthsInPixels: Record<string, number> = {};
@@ -66,10 +67,11 @@ export function useColumnCalculations(
           if (columnPropertyName) {
             // TODO Are both below needed?!?
             columnConfigurations.value[columnPropertyName].width =
-              `${tableCellElement.clientWidth}px`;
+              `${Math.ceil(tableCellElement.getBoundingClientRect().width)}px`;
 
-            columnWidthsInPixels[columnPropertyName] =
-              tableCellElement.clientWidth;
+            columnWidthsInPixels[columnPropertyName] = Math.ceil(
+              tableCellElement.getBoundingClientRect().width,
+            );
           }
         },
       );

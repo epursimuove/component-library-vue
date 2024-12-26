@@ -165,6 +165,10 @@ console.groupEnd();
 <template>
   <CurrentlyLoading :loading="isLoading" />
 
+  <div class="table-caption" v-if="props.caption">
+    {{ props.caption }}
+  </div>
+
   <TableToolsBar :pagination="pagination" :aggregation="aggregation" />
 
   <div class="table-wrapper">
@@ -178,7 +182,7 @@ console.groupEnd();
       <thead>
         <tr>
           <th
-            class="row-number"
+            class="row-number sticky-left"
             :ref="templateRefNames.rowNumberColumn"
             :style="calculatedColumnStyleForRowNumberColumn"
           >
@@ -220,7 +224,7 @@ console.groupEnd();
 
       <tbody>
         <tr v-for="(rowItem, index) in itemsInPage" :key="index">
-          <td class="meta row-number">
+          <td class="meta row-number sticky-left">
             {{ firstItemOnPage + index }}
           </td>
           <template
@@ -276,7 +280,10 @@ console.groupEnd();
           "
           :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
-          <th class="aggregation-toggler" @click="rotateAggregationType">
+          <th
+            class="aggregation-toggler sticky-left"
+            @click="rotateAggregationType"
+          >
             Sum
           </th>
           <th
@@ -295,7 +302,10 @@ console.groupEnd();
           "
           :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
-          <th class="aggregation-toggler" @click="rotateAggregationType">
+          <th
+            class="aggregation-toggler sticky-left"
+            @click="rotateAggregationType"
+          >
             Min
           </th>
           <th
@@ -314,7 +324,10 @@ console.groupEnd();
           "
           :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
-          <th class="aggregation-toggler" @click="rotateAggregationType">
+          <th
+            class="aggregation-toggler sticky-left"
+            @click="rotateAggregationType"
+          >
             Max
           </th>
           <th
@@ -333,7 +346,10 @@ console.groupEnd();
           "
           :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
-          <th class="aggregation-toggler" @click="rotateAggregationType">
+          <th
+            class="aggregation-toggler sticky-left"
+            @click="rotateAggregationType"
+          >
             Mean
           </th>
           <th
@@ -352,7 +368,10 @@ console.groupEnd();
           "
           :class="{ 'all-aggregation-displayed': displayAllAggregations }"
         >
-          <th class="aggregation-toggler" @click="rotateAggregationType">
+          <th
+            class="aggregation-toggler sticky-left"
+            @click="rotateAggregationType"
+          >
             Median
           </th>
           <th
@@ -369,15 +388,30 @@ console.groupEnd();
 </template>
 
 <style scoped>
+.table-caption {
+  font-weight: bold;
+
+  &:before {
+    content: "Table ";
+    color: rgb(100, 150, 100);
+    font-size: 0.7rem;
+    font-weight: normal;
+    text-transform: uppercase;
+  }
+}
+
 .table-wrapper {
   overflow-x: auto;
   margin-block: 1rem 3rem; /*TODO Not good solution for the component to have margin?!?*/
 }
 
 table {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
 
   caption {
+    display: none;
+    /*
     caption-side: top;
     text-align: start;
     font-weight: bold;
@@ -387,6 +421,7 @@ table {
       content: "Table: ";
       color: rgb(100, 200, 100);
     }
+   */
   }
 
   th,
@@ -411,7 +446,7 @@ table {
 
       .sorting-info {
         width: 1rem;
-        color: rgb(210, 210, 210);
+        color: rgb(150, 150, 150);
 
         &.currently-sorted-on {
           color: rgb(0, 0, 0);
@@ -431,7 +466,7 @@ table {
   thead,
   tfoot {
     tr {
-      background-color: rgb(240, 240, 255);
+      background-color: var(--color-background-table-header);
       color: black;
 
       th {
@@ -452,19 +487,25 @@ table {
 
   tbody {
     tr {
+      &:nth-child(odd) {
+        background-color: rgb(255, 255, 255);
+      }
+
       &:nth-child(even) {
-        background-color: rgb(250, 250, 250);
+        background-color: rgb(240, 240, 240);
       }
 
       &:hover {
         /*background-color: rgb(250, 250, 100, 35%);*/
-        background-color: rgb(255, 255, 0, 35%);
+        /*background-color: rgb(255, 255, 0, 35%);*/
+        background-color: var(--color-background-table-focus);
       }
 
       &:hover td.focused-column {
         /*background-color: yellow;*/
         /*background-color: rgb(0, 250, 0, 35%);*/
-        background-color: rgb(0, 255, 0, 35%);
+        /*background-color: rgb(0, 255, 0, 35%);*/
+        background-color: var(--color-background-table-extra-focus);
       }
 
       td {
@@ -472,7 +513,8 @@ table {
 
         &.focused-column {
           /*background-color: rgb(255, 255, 100, 35%);*/
-          background-color: rgb(255, 255, 0, 35%);
+          /*background-color: rgb(255, 255, 0, 35%);*/
+          background-color: var(--color-background-table-focus);
         }
 
         &.meta {
@@ -485,7 +527,7 @@ table {
           text-align: start;
         }
 
-        &:is(.integer, .decimalNumber, .positiveInteger) {
+        &:is(.integer, .decimalNumber, .positiveInteger, .percentage, .promille) {
           text-align: end;
           font-family: Menlo, "Courier New", monospace;
         }
@@ -509,13 +551,13 @@ table {
 
         &.localDate {
           font-family: Menlo, "Courier New", monospace;
-          color: yellowgreen;
+          color: darkseagreen;
           text-align: start;
         }
 
         &.countryCode {
           font-family: Menlo, "Courier New", monospace;
-          color: yellowgreen;
+          color: brown;
           text-align: start;
         }
       }
@@ -537,9 +579,18 @@ table {
 
       &.all-aggregation-displayed:hover {
         /*background-color: rgb(250, 250, 100, 35%);*/
-        background-color: rgb(255, 255, 0, 35%);
+        /*background-color: rgb(255, 255, 0, 35%);*/
+        background-color: var(--color-background-table-focus);
       }
     }
+  }
+
+  .sticky-left {
+    position: sticky;
+    left: 0;
+    border-inline-end: 1px solid rgb(200, 200, 200);
+    z-index: 1;
+    background-color: inherit;
   }
 }
 </style>

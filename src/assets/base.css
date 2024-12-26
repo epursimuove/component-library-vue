@@ -7,6 +7,10 @@
   --color-text: black;
   --color-footer: rgb(200, 200, 200);
 
+  --color-background-table-header: rgb(220, 220, 255);
+  --color-background-table-focus: rgb(255, 255, 100);
+  --color-background-table-extra-focus: rgb(200, 255, 200);
+
   --section-gap: 10rem;
 }
 

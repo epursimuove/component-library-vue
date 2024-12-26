@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PropertyType, PropertyValue } from "@/types/type.ts";
-import { getFlagEmoji } from "@/utils/util.ts";
+import { getFlagEmoji, toFixed } from "@/utils/util.ts";
 
 const props = defineProps<{
   propertyName: string;
@@ -21,6 +21,15 @@ const props = defineProps<{
 
     <template v-else-if="props.propertyType === 'countryCode'">
       {{ getFlagEmoji(propertyValue as string) }} {{ propertyValue }}
+    </template>
+
+    <template v-else-if="props.propertyType === 'percentage'">
+      <template v-if="propertyValue">{{ toFixed
+      ((propertyValue as number) * 100) }}%</template>
+    </template>
+
+    <template v-else-if="props.propertyType === 'promille'">
+      <template v-if="propertyValue">{{ toFixed((propertyValue as number) * 1000) }}&permil;</template>
     </template>
 
     <template v-else>

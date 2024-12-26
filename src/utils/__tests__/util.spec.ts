@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createRandomId, getNumberOfDigits, padStart } from "@/utils/util.ts";
+import { createRandomId, getNumberOfDigits, padStart, toFixed } from "@/utils/util.ts";
 
 describe("util.ts", () => {
   describe("createRandomId", () => {
@@ -60,5 +60,42 @@ describe("util.ts", () => {
       expect(padStart(98765, 6)).toBe(" 98765");
       expect(padStart(98765, 10)).toBe("     98765");
     });
+  });
+
+  describe("toFixed", () => {
+
+    it("default number of digits", () => {
+      expect(toFixed(0)).toBe("0.00");
+      expect(toFixed(0.001)).toBe("0.00");
+      expect(toFixed(0.006)).toBe("0.01");
+      expect(toFixed(0.123)).toBe("0.12");
+      expect(toFixed(9)).toBe("9.00");
+      expect(toFixed(9.5)).toBe("9.50");
+      expect(toFixed(9.99)).toBe("9.99");
+      expect(toFixed(9.999)).toBe("10.00");
+      expect(toFixed(123.98765)).toBe("123.99");
+    });
+
+    it("defined number of digits", () => {
+      expect(toFixed(0, 1)).toBe("0.0");
+      expect(toFixed(0, 3)).toBe("0.000");
+      expect(toFixed(0.001, 1)).toBe("0.0");
+      expect(toFixed(0.001, 3)).toBe("0.001");
+      expect(toFixed(0.006, 1)).toBe("0.0");
+      expect(toFixed(0.006, 3)).toBe("0.006");
+      expect(toFixed(0.123, 1)).toBe("0.1");
+      expect(toFixed(0.123, 3)).toBe("0.123");
+      expect(toFixed(9, 1)).toBe("9.0");
+      expect(toFixed(9, 3)).toBe("9.000");
+      expect(toFixed(9.5, 1)).toBe("9.5");
+      expect(toFixed(9.5, 3)).toBe("9.500");
+      expect(toFixed(9.99, 1)).toBe("10.0");
+      expect(toFixed(9.99, 3)).toBe("9.990");
+      expect(toFixed(9.999, 1)).toBe("10.0");
+      expect(toFixed(9.999, 3)).toBe("9.999");
+      expect(toFixed(123.98765, 1)).toBe("124.0");
+      expect(toFixed(123.98765, 3)).toBe("123.988");
+    });
+
   });
 });

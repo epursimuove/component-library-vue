@@ -22,6 +22,8 @@ export type PropertyType =
   | "localDateTime"
   | "timestamp"
   | "countryCode"
+  | "percentage"
+  | "promille"
   | "link";
 
 export type PropertyValue = string | number | boolean | null | undefined;

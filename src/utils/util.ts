@@ -14,3 +14,9 @@ export function getFlagEmoji(countryCode: string): string {
     .map((char: string) => 127397 + char.charCodeAt(0));
   return String.fromCodePoint(...codePoints);
 }
+
+export const toFixed = (n: number, numberOfDecimals: number = 2): string =>
+  n.toFixed(numberOfDecimals);
+
+export const toFixedPOC = (n: number, numberOfDecimals: number = 2): number =>
+  Number.parseFloat(n.toFixed(numberOfDecimals));

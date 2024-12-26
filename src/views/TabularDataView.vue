@@ -3,6 +3,7 @@ import {
   createDummyNumberList,
   createDummyUserList,
   dummyConfigurationList,
+  dummyListOfCountries,
   dummyTabularData,
 } from "@/utils/tabularData.ts";
 import AutomaticTable from "@/components/tabularData/AutomaticTable.vue";
@@ -51,22 +52,8 @@ const reorderList = () => {
   />
 
   <AutomaticTable
-    :list="[
-      { countryName: 'Sweden', countryCode: 'SE' },
-      { countryName: 'Finland', countryCode: 'FI' },
-      { countryName: 'Norway', countryCode: 'NO' },
-      { countryName: 'Denmark', countryCode: 'DK' },
-      { countryName: 'Iceland', countryCode: 'IS' },
-      { countryName: 'France', countryCode: 'FR' },
-      { countryName: 'Germany', countryCode: 'DE' },
-      { countryName: 'Poland', countryCode: 'PL' },
-      { countryName: 'Great Britain', countryCode: 'GB' },
-      { countryName: 'Ireland', countryCode: 'IE' },
-      { countryName: 'Italy', countryCode: 'IT' },
-      { countryName: 'Spain', countryCode: 'ES' },
-      { countryName: 'Portugal', countryCode: 'PT' },
-    ]"
-    :caption="`Countries`"
+    :list="dummyListOfCountries"
+    :caption="`List of ${dummyListOfCountries.length} countries`"
   />
 </template>
 
