@@ -101,11 +101,13 @@ export const getPropertyTypesForObject = (
 type DummyUser = {
   firstName: string;
   lastName: string;
+  fullName?: string;
   age: number;
   married: boolean;
   salary: number;
   numberOfChildren: number;
   registeredLocalDate: string;
+  countryCode?: "SE" | "DK" | "FI" | "NO" | "IS";
 };
 
 export const dummyTabularData: DummyUser[] = [
@@ -394,12 +396,14 @@ export const createDummyUserList = (): DummyUser[] => {
     (user: DummyUser) => user.lastName,
   );
 
+  const countryCodes: ("SE" | "DK" | "FI" | "NO" | "IS")[] = ["SE", "DK", "FI", "NO", "IS"];
+
   // const randomNumberOfItems: number = createRandomId(2000) + 100;
   const randomNumberOfItems: number = createRandomId(50) + 100;
 
   const dummyList: DummyUser[] = [];
   for (let n: number = 1; n <= randomNumberOfItems; n++) {
-    dummyList.push({
+    const user: DummyUser = {
       firstName: firstNames[createRandomId(firstNames.length - 1)],
       lastName: lastNames[createRandomId(lastNames.length - 1)],
       age: createRandomId(105),
@@ -407,7 +411,10 @@ export const createDummyUserList = (): DummyUser[] => {
       salary: createRandomId(100000),
       numberOfChildren: createRandomId(6) - 1,
       registeredLocalDate: `${createRandomId(45) + 1980}-0${createRandomId(9)}-${createRandomId(18) + 10}`, // TODO Better dates :)
-    });
+    };
+    user.fullName = `${user.firstName} ${user.lastName}`;
+    user.countryCode = countryCodes[createRandomId(countryCodes.length) - 1];
+    dummyList.push(user);
   }
 
   return dummyList;

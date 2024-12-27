@@ -6,8 +6,9 @@ import type {
   ColumnConfigurations,
   RowItem,
 } from "@/types/type.ts";
+import { createDummyUserList } from "@/utils/tabularData.ts";
 
-const userDefinedList: Ref<RowItem[]> = ref([
+const userDefinedListExample: Ref<RowItem[]> = ref([
   {
     hello: "World",
     foo: false,
@@ -21,6 +22,8 @@ const userDefinedList: Ref<RowItem[]> = ref([
     pangram: "Yxmördaren Julia Blomqvist på fäktning i Schweiz",
   },
 ]);
+
+const userDefinedList: Ref<RowItem[]> = ref(createDummyUserList());
 
 const columnConfigurationsList: Ref<RowItem[]> = ref([]);
 
@@ -52,6 +55,7 @@ const calculateResult = (): void => {
     // console.log("userTableAsJSON.value", userTableAsJSON.value);
     userDefinedList.value = JSON.parse(userTableAsJSON.value);
   }
+
 
   /*
   [
@@ -87,13 +91,13 @@ const calculateResult = (): void => {
     <div>
       <label for="user-table-as-json">User defined list of JSON objects</label>
 
-      <textarea id="user-table-as-json" cols="40" rows="15" v-model="userTableAsJSON"></textarea>
+      <textarea id="user-table-as-json" cols="40" rows="25" v-model="userTableAsJSON"></textarea>
     </div>
 
     <div>
       <label for="column-configurations-as-json">Automatically calculated column configurations (JSON)</label>
 
-      <textarea id="column-configurations-as-json" cols="40" rows="15" :value="JSON.stringify(columnConfigurationsList, null, 2)" readonly></textarea>
+      <textarea id="column-configurations-as-json" cols="40" rows="25" :value="JSON.stringify(columnConfigurationsList, null, 2)" readonly></textarea>
     </div>
 
 

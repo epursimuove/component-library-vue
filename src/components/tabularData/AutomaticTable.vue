@@ -523,6 +523,10 @@ table {
         background-color: var(--color-background-table-extra-focus);
       }
 
+      &:hover td.sticky-left {
+        background-color: var(--color-background-table-focus-sticky);
+      }
+
       td {
         vertical-align: baseline;
 
@@ -538,7 +542,7 @@ table {
         }
 
         &.text {
-          color: orangered;
+          color: black;
           text-align: start;
         }
 
@@ -558,7 +562,7 @@ table {
         }
 
         &.positiveInteger {
-          color: lightsteelblue;
+          color: firebrick;
         }
 
         &.decimalNumber {
@@ -572,7 +576,7 @@ table {
 
         &.localDate {
           font-family: Menlo, "Courier New", monospace;
-          color: darkseagreen;
+          color: green;
           text-align: start;
         }
 
@@ -580,6 +584,10 @@ table {
           font-family: Menlo, "Courier New", monospace;
           color: brown;
           text-align: start;
+        }
+
+        &:is(.percentage, .promille) {
+          color: darkcyan;
         }
       }
     }
