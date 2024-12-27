@@ -20,7 +20,12 @@
   <ul>
     <li>
       <RouterLink :to="{ name: 'Tabular Data' }">Tabular Data</RouterLink>,
-      automagically creating tables with sorting, pagination and aggregation.
+      beautiful tables with sorting, pagination, aggregation and sticky columns. Great for displaying, comparing and analysing structured data.
+    </li>
+
+    <li>
+      <RouterLink :to="{ name: 'List Manager' }">List Manager</RouterLink>,
+      automagically creating tables with sorting, pagination, aggregation and sticky columns from any list of JSON objects.
     </li>
   </ul>
 

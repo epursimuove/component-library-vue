@@ -33,11 +33,13 @@ export type FilterType = "text" | "enumeratedText" | "boolean" | "number";
 export type RowItem = Record<string, PropertyValue>;
 
 export type ColumnConfiguration = {
-  label: string;
   propertyName: string;
   propertyType: PropertyType;
+  label: string;
   width?: string;
 };
+
+export type ColumnConfigurations = Record<string, ColumnConfiguration>;
 
 export type SortOrder = "ascending" | "descending";
 

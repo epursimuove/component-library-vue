@@ -2,9 +2,9 @@ import type { ComputedRef, Ref } from "vue";
 import { computed, nextTick, ref } from "vue";
 import type {
   ColumnCalculations,
-  ColumnConfiguration,
+  ColumnConfiguration, ColumnConfigurations,
   PropertyValue,
-  RowItem,
+  RowItem
 } from "@/types/type.ts";
 import { getPropertyType, prettifyPropertyName } from "@/utils/tabularData.ts";
 
@@ -109,7 +109,7 @@ export function useColumnCalculations(
     console.groupEnd();
   };
 
-  const columnConfigurations: ComputedRef<Record<string, ColumnConfiguration>> =
+  const columnConfigurations: ComputedRef<ColumnConfigurations> =
     computed(() => {
       const firstItemInList: RowItem = originalList.value[0]; // TODO Use more values to make a better decision?!?
 
@@ -120,13 +120,13 @@ export function useColumnCalculations(
         `Deciding column configurations from object with ${objectProperties.length} properties`,
       );
 
-      const columnConfigurations: Record<string, ColumnConfiguration> = {};
+      const columnConfigurations: ColumnConfigurations = {};
 
       objectProperties.forEach(([propertyName, propertyValue]): void => {
         const columnConfiguration: ColumnConfiguration = {
-          label: prettifyPropertyName(propertyName),
           propertyName,
           propertyType: getPropertyType(propertyValue),
+          label: prettifyPropertyName(propertyName),
           // width: "123px",
         };
 

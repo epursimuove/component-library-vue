@@ -16,6 +16,7 @@ import {
 } from "vue";
 import type {
   Aggregation,
+  ColumnConfigurations,
   Pagination,
   PropertyType,
   RowItem,
@@ -32,6 +33,10 @@ import { useColumnCalculations } from "@/composables/tabularData/columnCalculati
 const props = defineProps<{
   list: RowItem[];
   caption?: string;
+}>();
+
+const emit = defineEmits<{
+  modifiedColumnConfigurations: [columnConfigurations: ColumnConfigurations];
 }>();
 
 console.group(
@@ -90,6 +95,16 @@ watch(
     isLoading.value = false;
   },
 );
+
+watch(columnConfigurations, (newConfigurations: ColumnConfigurations, oldConfigurations: ColumnConfigurations | undefined) => {
+  console.info(
+    `WATCHING: columnConfigurations updated:`, Object.keys(oldConfigurations || {}), Object.keys(newConfigurations),
+  );
+
+  console.log(`Emitting "modifiedColumnConfigurations"`);
+
+  emit("modifiedColumnConfigurations", newConfigurations);
+}, {immediate: true});
 
 const {
   sortedList,
@@ -527,7 +542,13 @@ table {
           text-align: start;
         }
 
-        &:is(.integer, .decimalNumber, .positiveInteger, .percentage, .promille) {
+        &:is(
+            .integer,
+            .decimalNumber,
+            .positiveInteger,
+            .percentage,
+            .promille
+          ) {
           text-align: end;
           font-family: Menlo, "Courier New", monospace;
         }
