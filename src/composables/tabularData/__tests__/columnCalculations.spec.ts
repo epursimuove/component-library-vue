@@ -40,24 +40,32 @@ describe("useColumnCalculations", () => {
           propertyName: "state",
           propertyType: "text",
           typeof: "string",
+          enabled: true,
+          indexOrder: 0,
         },
         theValue: {
           label: "The value",
           propertyName: "theValue",
           propertyType: "integer",
           typeof: "number",
+          enabled: true,
+          indexOrder: 1,
         },
         countryCode: {
           label: "Country code",
           propertyName: "countryCode",
           propertyType: "countryCode",
           typeof: "string",
+          enabled: true,
+          indexOrder: 2,
         },
         dateOfBirth: {
           label: "Date of birth",
           propertyName: "dateOfBirth",
           propertyType: "localDate",
           typeof: "string",
+          enabled: true,
+          indexOrder: 3,
         },
       });
     });

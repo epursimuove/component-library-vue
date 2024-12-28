@@ -49,8 +49,15 @@ export function useColumnCalculations(
 
       Object.entries(calculatedColumnWidthsInPixels.value).forEach(
         ([propertyName, widthInPixels]): void => {
-          calculatedColumnStyle[propertyName] =
-            createStyleForColumn(widthInPixels);
+          let style = createStyleForColumn(widthInPixels);
+
+          const sticky = columnConfigurations.value[propertyName]?.sticky;
+          if (sticky) {
+            console.log("sticky", sticky);
+            style += ` left: ${sticky.offsetInPixels}px;`;
+          }
+
+          calculatedColumnStyle[propertyName] = style;
         },
       );
 
@@ -134,14 +141,38 @@ export function useColumnCalculations(
 
       const columnConfigurations: ColumnConfigurations = {};
 
-      objectProperties.forEach(([propertyName, propertyValue]): void => {
+      objectProperties.forEach(([propertyName, propertyValue], index): void => {
         const columnConfiguration: ColumnConfiguration = {
           propertyName,
           propertyType: getPropertyType(propertyValue, propertyName),
           typeof: typeof propertyValue,
           label: prettifyPropertyName(propertyName),
+          indexOrder: index,
+          enabled: true,
           // width: "123px",
+          //sticky: "left",
         };
+
+        // TODO TEST TEST TEST
+        if (
+          ["firstName", "propertyName"].includes(propertyName) &&
+          calculatedColumnWidthInPixelsForRowNumberColumn.value
+        ) {
+          columnConfiguration.sticky = {
+            position: "left",
+            offsetInPixels:
+              calculatedColumnWidthInPixelsForRowNumberColumn.value, // TODO
+          };
+        }
+        if (
+          propertyName === "lastName" &&
+          calculatedColumnWidthInPixelsForRowNumberColumn.value
+        ) {
+          columnConfiguration.sticky = {
+            position: "left",
+            offsetInPixels: 171 + 89, // TODO
+          };
+        }
 
         columnConfigurations[propertyName] = columnConfiguration;
       });
@@ -153,6 +184,20 @@ export function useColumnCalculations(
       return columnConfigurations;
     },
   );
+
+  const stickyLeftColumns: ComputedRef<string[]> = computed(() => {
+    const leftSticky: string[] = Object.values(columnConfigurations.value)
+      .filter((columnConfiguration: ColumnConfiguration): boolean => {
+        return columnConfiguration.sticky?.position === "left";
+      })
+      .map(
+        (columnConfiguration: ColumnConfiguration) =>
+          columnConfiguration.propertyName,
+      );
+
+    console.error("leftSticky", leftSticky);
+    return leftSticky;
+  });
 
   const createStyleForColumn = (widthInPixels: number | undefined): string => {
     return widthInPixels
@@ -168,5 +213,7 @@ export function useColumnCalculations(
     calculatedColumnStyleForRowNumberColumn,
     calculatedColumnStyle,
     columnConfigurations,
+
+    stickyLeftColumns,
   };
 }

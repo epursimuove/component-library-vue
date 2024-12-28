@@ -20,3 +20,10 @@ export const toFixed = (n: number, numberOfDecimals: number = 2): string =>
 
 export const toFixedPOC = (n: number, numberOfDecimals: number = 2): number =>
   Number.parseFloat(n.toFixed(numberOfDecimals));
+
+export const firstAndLastInArray = <T>(
+  arr: T[],
+): { first: T; last: T; length: number } => {
+  const { 0: first, length, [length - 1]: last } = arr;
+  return { first, length, last };
+};

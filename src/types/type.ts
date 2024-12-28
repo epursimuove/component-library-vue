@@ -24,6 +24,7 @@ export type PropertyType =
   | "countryCode"
   | "percentage"
   | "promille"
+  | "plainObject"
   | "link";
 
 export type PropertyValue = string | number | boolean | null | undefined;
@@ -32,12 +33,21 @@ export type FilterType = "text" | "enumeratedText" | "boolean" | "number";
 
 export type RowItem = Record<string, PropertyValue>;
 
+export type StickyColumn = "left" | "right";
+
 export type ColumnConfiguration = {
   propertyName: string;
   propertyType: PropertyType;
   typeof: AutomaticPropertyType;
   label: string;
+  indexOrder: number;
+  enabled: boolean;
   widthInPixels?: number;
+  // sticky?: StickyColumn;
+  sticky?: {
+    position: StickyColumn;
+    offsetInPixels: number;
+  };
 };
 
 export type ColumnConfigurations = Record<string, ColumnConfiguration>;
@@ -56,6 +66,7 @@ export type ColumnCalculations = {
   calculatedColumnStyleForRowNumberColumn: Ref<string>;
   calculatedColumnStyle: Ref<Record<string, string>>;
   columnConfigurations: ComputedRef<ColumnConfigurations>;
+  stickyLeftColumns: ComputedRef<string[]>;
 };
 
 export type Sorting = {

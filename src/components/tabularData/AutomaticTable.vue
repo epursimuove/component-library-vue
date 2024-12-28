@@ -29,6 +29,7 @@ import TableToolsBar from "@/components/tabularData/TableToolsBar.vue";
 import { useAggregation } from "@/composables/tabularData/aggregation.ts";
 import CurrentlyLoading from "@/components/CurrentlyLoading.vue";
 import { useColumnCalculations } from "@/composables/tabularData/columnCalculations.ts";
+import { firstAndLastInArray } from "@/utils/util.ts";
 
 const props = defineProps<{
   list: RowItem[];
@@ -76,6 +77,7 @@ const {
   columnConfigurations,
   calculatedColumnStyleForRowNumberColumn,
   calculatedColumnStyle,
+  stickyLeftColumns,
 } = useColumnCalculations(
   allTheItems,
   rowNumberColumnWidthRef,
@@ -208,6 +210,7 @@ console.groupEnd();
           <th
             class="row-number sticky-left"
             :ref="templateRefNames.rowNumberColumn"
+            :class="{ 'sticky-endpoint': stickyLeftColumns.length === 0 }"
             :style="calculatedColumnStyleForRowNumberColumn"
           >
             {{ totalNumberOfItems }}
@@ -215,12 +218,17 @@ console.groupEnd();
 
           <th
             v-for="(
-              { propertyName, propertyType }, index
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
             ) in columnConfigurations"
             :key="propertyName"
             :ref="templateRefNames.dynamicColumnWidths"
             :data-column-id="propertyName"
-            :class="propertyType"
+            :class="{
+              propertyType,
+              'sticky-left': sticky !== undefined,
+              'sticky-endpoint':
+                firstAndLastInArray(stickyLeftColumns).last === propertyName,
+            }"
             :style="calculatedColumnStyle[propertyName]"
             @click="sortOn(propertyName)"
           >
@@ -250,18 +258,29 @@ console.groupEnd();
 
       <tbody>
         <tr v-for="(rowItem, index) in itemsInPage" :key="index">
-          <td class="meta row-number sticky-left">
+          <td
+            class="meta row-number sticky-left"
+            :class="{ 'sticky-endpoint': stickyLeftColumns.length === 0 }"
+          >
             {{ firstItemOnPage + index }}
           </td>
           <template
-            v-for="(propertyValue, propertyName, columnIndex) in rowItem"
+            v-for="(
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
+            ) in columnConfigurations"
             :key="propertyName"
           >
             <CellData
               :propertyName="propertyName"
-              :propertyValue="propertyValue"
+              :propertyValue="rowItem[propertyName]"
               :propertyType="propertyTypes[propertyName]"
-              :class="{ 'focused-column': focusedColumnIndex === columnIndex }"
+              :class="{
+                'focused-column': focusedColumnIndex === columnIndex,
+                'sticky-left': sticky !== undefined,
+                'sticky-endpoint':
+                  firstAndLastInArray(stickyLeftColumns).last === propertyName,
+              }"
+              :style="`left: ${sticky?.offsetInPixels}px;`"
               @click.meta="toggleColumnFocus(columnIndex)"
             />
           </template>
@@ -308,14 +327,23 @@ console.groupEnd();
         >
           <th
             class="aggregation-toggler sticky-left"
+            :class="{ 'sticky-endpoint': stickyLeftColumns.length === 0 }"
             @click="rotateAggregationType"
           >
             Sum
           </th>
           <th
-            v-for="(propertyValue, propertyName) in itemsInPage[0]"
+            v-for="(
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
+            ) in columnConfigurations"
             :key="propertyName"
             class="decimalNumber"
+            :class="{
+              'sticky-left': sticky !== undefined,
+              'sticky-endpoint':
+                firstAndLastInArray(stickyLeftColumns).last === propertyName,
+            }"
+            :style="`left: ${sticky?.offsetInPixels}px;`"
           >
             {{ sum[propertyName] }}
           </th>
@@ -335,9 +363,17 @@ console.groupEnd();
             Min
           </th>
           <th
-            v-for="(propertyValue, propertyName) in itemsInPage[0]"
+            v-for="(
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
+            ) in columnConfigurations"
             :key="propertyName"
             class="decimalNumber"
+            :class="{
+              'sticky-left': sticky !== undefined,
+              'sticky-endpoint':
+                firstAndLastInArray(stickyLeftColumns).last === propertyName,
+            }"
+            :style="`left: ${sticky?.offsetInPixels}px;`"
           >
             {{ min[propertyName] }}
           </th>
@@ -357,9 +393,17 @@ console.groupEnd();
             Max
           </th>
           <th
-            v-for="(propertyValue, propertyName) in itemsInPage[0]"
+            v-for="(
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
+            ) in columnConfigurations"
             :key="propertyName"
             class="decimalNumber"
+            :class="{
+              'sticky-left': sticky !== undefined,
+              'sticky-endpoint':
+                firstAndLastInArray(stickyLeftColumns).last === propertyName,
+            }"
+            :style="`left: ${sticky?.offsetInPixels}px;`"
           >
             {{ max[propertyName] }}
           </th>
@@ -379,9 +423,17 @@ console.groupEnd();
             Mean
           </th>
           <th
-            v-for="(propertyValue, propertyName) in itemsInPage[0]"
+            v-for="(
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
+            ) in columnConfigurations"
             :key="propertyName"
             class="decimalNumber"
+            :class="{
+              'sticky-left': sticky !== undefined,
+              'sticky-endpoint':
+                firstAndLastInArray(stickyLeftColumns).last === propertyName,
+            }"
+            :style="`left: ${sticky?.offsetInPixels}px;`"
           >
             {{ mean[propertyName] }}
           </th>
@@ -401,9 +453,17 @@ console.groupEnd();
             Median
           </th>
           <th
-            v-for="(propertyValue, propertyName) in itemsInPage[0]"
+            v-for="(
+              { propertyName, propertyType, sticky }, _propertyName, columnIndex
+            ) in columnConfigurations"
             :key="propertyName"
             class="decimalNumber"
+            :class="{
+              'sticky-left': sticky !== undefined,
+              'sticky-endpoint':
+                firstAndLastInArray(stickyLeftColumns).last === propertyName,
+            }"
+            :style="`left: ${sticky?.offsetInPixels}px;`"
           >
             {{ median[propertyName] }}
           </th>
@@ -472,7 +532,7 @@ table {
 
       .sorting-info {
         width: 1rem;
-        color: rgb(150, 150, 150);
+        color: rgb(180, 180, 180);
 
         &.currently-sorted-on {
           color: rgb(0, 0, 0);
@@ -600,6 +660,10 @@ table {
         &:is(.percentage, .promille) {
           color: darkcyan;
         }
+
+        &.plainObject {
+          color: darkkhaki;
+        }
       }
     }
   }
@@ -628,9 +692,19 @@ table {
   .sticky-left {
     position: sticky;
     left: 0;
-    border-inline-end: 1px solid rgb(200, 200, 200);
     z-index: 1;
     background-color: inherit;
+
+    &.last-child_NOT_WORKING {
+      background-color: lightgreen;
+      /*border-inline-end: 5px solid rgb(200, 200, 200);*/
+      box-shadow: 1px 0px rgb(200, 200, 200);
+    }
+    &.sticky-endpoint {
+      /*background-color: lightgreen;*/
+      /*border-inline-end: 5px solid rgb(200, 200, 200);*/
+      box-shadow: 1px 0px rgb(200, 200, 200);
+    }
   }
 }
 </style>

@@ -75,6 +75,9 @@ export const getPropertyType = (
       }
       return "decimalNumber";
 
+    case "object":
+      return "plainObject";
+
     default:
       return "text";
   }

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   createRandomId,
+  firstAndLastInArray,
   getNumberOfDigits,
   padStart,
   toFixed,
@@ -99,6 +100,29 @@ describe("util.ts", () => {
       expect(toFixed(9.999, 3)).toBe("9.999");
       expect(toFixed(123.98765, 1)).toBe("124.0");
       expect(toFixed(123.98765, 3)).toBe("123.988");
+    });
+  });
+
+  describe("firstAndLastInArray", () => {
+    it("works", () => {
+      expect(firstAndLastInArray([])).toStrictEqual({
+        first: undefined,
+        last: undefined,
+        length: 0,
+      });
+      expect(firstAndLastInArray([42])).toStrictEqual({
+        first: 42,
+        last: 42,
+        length: 1,
+      });
+      expect(firstAndLastInArray(["a", "b", "c"])).toStrictEqual({
+        first: "a",
+        last: "c",
+        length: 3,
+      });
+      expect(firstAndLastInArray([999, 888, 777, 666, 555, 444])).toStrictEqual(
+        { first: 999, last: 444, length: 6 },
+      );
     });
   });
 });
