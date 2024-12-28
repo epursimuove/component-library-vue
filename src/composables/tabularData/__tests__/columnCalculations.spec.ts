@@ -13,6 +13,8 @@ describe("useColumnCalculations", () => {
       {
         state: "Testing",
         theValue: 1234,
+        countryCode: "SE",
+        dateOfBirth: "1990-05-23",
       },
     ]);
 
@@ -37,11 +39,25 @@ describe("useColumnCalculations", () => {
           label: "State",
           propertyName: "state",
           propertyType: "text",
+          typeof: "string",
         },
         theValue: {
           label: "The value",
           propertyName: "theValue",
           propertyType: "integer",
+          typeof: "number",
+        },
+        countryCode: {
+          label: "Country code",
+          propertyName: "countryCode",
+          propertyType: "countryCode",
+          typeof: "string",
+        },
+        dateOfBirth: {
+          label: "Date of birth",
+          propertyName: "dateOfBirth",
+          propertyType: "localDate",
+          typeof: "string",
         },
       });
     });

@@ -41,7 +41,12 @@ export const prettifyPropertyName = (propertyName: string): string => {
 
 const localDateRegExp: RegExp = new RegExp(/^\d\d\d\d-\d\d-\d\d$/);
 
-export const getPropertyType = (propertyValue: PropertyValue): PropertyType => {
+const countryCodeRegExp: RegExp = new RegExp(/^[A-Z]{2}$/);
+
+export const getPropertyType = (
+  propertyValue: PropertyValue,
+  propertyName?: string,
+): PropertyType => {
   if (propertyValue === undefined || propertyValue === null) {
     return "text";
   }
@@ -55,6 +60,12 @@ export const getPropertyType = (propertyValue: PropertyValue): PropertyType => {
     case "string":
       if (localDateRegExp.test(propertyValue as string)) {
         return "localDate";
+      }
+      if (
+        propertyName === "countryCode" &&
+        countryCodeRegExp.test(propertyValue as string)
+      ) {
+        return "countryCode";
       }
       return "text";
 
@@ -75,7 +86,10 @@ export const getPropertyTypesForObject = (
   const propertyTypes: Record<string, PropertyType> = {};
 
   Object.entries(object).forEach(([propertyName, propertyValue]) => {
-    const propertyType: PropertyType = getPropertyType(propertyValue);
+    const propertyType: PropertyType = getPropertyType(
+      propertyValue,
+      propertyName,
+    );
 
     propertyTypes[propertyName] = propertyType;
 
@@ -84,8 +98,8 @@ export const getPropertyTypesForObject = (
       propertyTypes[propertyName] = "decimalNumber";
     } else if (propertyName === "numberOfChildren") {
       propertyTypes[propertyName] = "positiveInteger";
-    } else if (propertyName === "countryCode") {
-      propertyTypes[propertyName] = "countryCode";
+      // } else if (propertyName === "countryCode") {
+      //   propertyTypes[propertyName] = "countryCode";
     } else if (propertyName === "percentage") {
       propertyTypes[propertyName] = "percentage";
     } else if (propertyName === "promille") {

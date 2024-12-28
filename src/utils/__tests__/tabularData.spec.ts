@@ -48,6 +48,8 @@ describe("tabularData.ts", () => {
       expect(getPropertyType(true)).toBe("boolean");
       expect(getPropertyType(123)).toBe("integer");
       expect(getPropertyType(3.14)).toBe("decimalNumber");
+      expect(getPropertyType("DK")).toBe("text");
+      expect(getPropertyType("DK", "countryCode")).toBe("countryCode");
     });
   });
 
@@ -65,6 +67,9 @@ describe("tabularData.ts", () => {
         getPropertyTypesForObject({ birthDate: "1995-05-10" }),
       ).toStrictEqual({
         birthDate: "localDate",
+      });
+      expect(getPropertyTypesForObject({ countryCode: "XY" })).toStrictEqual({
+        countryCode: "countryCode",
       });
     });
   });

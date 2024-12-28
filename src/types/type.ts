@@ -35,6 +35,7 @@ export type RowItem = Record<string, PropertyValue>;
 export type ColumnConfiguration = {
   propertyName: string;
   propertyType: PropertyType;
+  typeof: AutomaticPropertyType;
   label: string;
   widthInPixels?: number;
 };

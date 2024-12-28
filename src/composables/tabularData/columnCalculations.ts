@@ -137,7 +137,8 @@ export function useColumnCalculations(
       objectProperties.forEach(([propertyName, propertyValue]): void => {
         const columnConfiguration: ColumnConfiguration = {
           propertyName,
-          propertyType: getPropertyType(propertyValue),
+          propertyType: getPropertyType(propertyValue, propertyName),
+          typeof: typeof propertyValue,
           label: prettifyPropertyName(propertyName),
           // width: "123px",
         };
