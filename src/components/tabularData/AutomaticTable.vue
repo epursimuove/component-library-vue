@@ -645,7 +645,7 @@ table {
           text-align: center;
         }
 
-        &.localDate {
+        &:is(.localDate, .timestamp) {
           font-family: Menlo, "Courier New", monospace;
           color: green;
           text-align: start;

@@ -27,7 +27,13 @@ export type PropertyType =
   | "plainObject"
   | "link";
 
-export type PropertyValue = string | number | boolean | null | undefined | Record<string, unknown>;
+export type PropertyValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | Record<string, unknown>;
 
 export type FilterType = "text" | "enumeratedText" | "boolean" | "number";
 

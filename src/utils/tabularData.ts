@@ -41,6 +41,10 @@ export const prettifyPropertyName = (propertyName: string): string => {
 
 const localDateRegExp: RegExp = new RegExp(/^\d\d\d\d-\d\d-\d\d$/);
 
+const timestampRegExp: RegExp = new RegExp(
+  /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$/,
+);
+
 const countryCodeRegExp: RegExp = new RegExp(/^[A-Z]{2}$/);
 
 export const getPropertyType = (
@@ -60,6 +64,9 @@ export const getPropertyType = (
     case "string":
       if (localDateRegExp.test(propertyValue as string)) {
         return "localDate";
+      }
+      if (timestampRegExp.test(propertyValue as string)) {
+        return "timestamp";
       }
       if (
         propertyName === "countryCode" &&
@@ -124,6 +131,7 @@ type DummyUser = {
   salary: number;
   numberOfChildren: number;
   registeredLocalDate: string;
+  lastLogin?: string;
   countryCode?: "SE" | "DK" | "FI" | "NO" | "IS";
 };
 
@@ -434,6 +442,7 @@ export const createDummyUserList = (): DummyUser[] => {
       salary: createRandomId(100000),
       numberOfChildren: createRandomId(6) - 1,
       registeredLocalDate: `${createRandomId(45) + 1980}-0${createRandomId(9)}-${createRandomId(18) + 10}`, // TODO Better dates :)
+      lastLogin: `${createRandomId(45) + 1980}-0${createRandomId(9)}-${createRandomId(18) + 10}T0${createRandomId(9)}:0${createRandomId(9)}:0${createRandomId(9)}Z`, // TODO Better timestamps :)
     };
     user.fullName = `${user.firstName} ${user.lastName}`;
     user.countryCode = countryCodes[createRandomId(countryCodes.length) - 1];

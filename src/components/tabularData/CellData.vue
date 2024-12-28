@@ -19,6 +19,13 @@ const props = defineProps<{
       <template v-if="propertyValue">{{ propertyValue }}</template>
     </template>
 
+    <template v-else-if="props.propertyType === 'timestamp'">
+      <span>{{ (propertyValue as string).slice(0, 10) }}</span>
+      <span class="meta">{{ (propertyValue as string).slice(10, 11) }}</span>
+      <span>{{ (propertyValue as string).slice(11, 19) }}</span>
+      <span class="meta">{{ (propertyValue as string).slice(19) }}</span>
+    </template>
+
     <template v-else-if="props.propertyType === 'countryCode'">
       {{ getFlagEmoji(propertyValue as string) }} {{ propertyValue }}
     </template>
@@ -43,6 +50,9 @@ const props = defineProps<{
 </template>
 
 <style scoped>
+.meta {
+  color: rgb(230, 230, 230);
+}
 /*
 td {
 
