@@ -34,10 +34,7 @@ const userTableAsJSON: Ref<string> = ref(
 const handleModifiedColumnConfigurations = async (
   columnConfigurations: ColumnConfigurations,
 ) => {
-  console.info(
-    `Received updated column configurations`,
-    columnConfigurations,
-  );
+  console.info(`Received updated column configurations`, columnConfigurations);
 
   await nextTick();
 
@@ -55,7 +52,6 @@ const calculateResult = (): void => {
     // console.log("userTableAsJSON.value", userTableAsJSON.value);
     userDefinedList.value = JSON.parse(userTableAsJSON.value);
   }
-
 
   /*
   [
@@ -91,19 +87,31 @@ const calculateResult = (): void => {
     <div>
       <label for="user-table-as-json">User defined list of JSON objects</label>
 
-      <textarea id="user-table-as-json" cols="40" rows="25" v-model="userTableAsJSON"></textarea>
+      <textarea
+        id="user-table-as-json"
+        cols="40"
+        rows="25"
+        v-model="userTableAsJSON"
+      ></textarea>
     </div>
 
     <div>
-      <label for="column-configurations-as-json">Automatically calculated column configurations (JSON)</label>
+      <label for="column-configurations-as-json"
+        >Automatically calculated column configurations (JSON)</label
+      >
 
-      <textarea id="column-configurations-as-json" cols="40" rows="25" :value="JSON.stringify(columnConfigurationsList, null, 2)" readonly></textarea>
+      <textarea
+        id="column-configurations-as-json"
+        cols="40"
+        rows="25"
+        :value="JSON.stringify(columnConfigurationsList, null, 2)"
+        readonly
+      ></textarea>
     </div>
 
-
-<!--    <pre style="width: 20rem; height: 10rem; overflow: auto;">-->
-<!--      {{JSON.stringify(columnConfigurationsList, null, 2)}}-->
-<!--    </pre>-->
+    <!--    <pre style="width: 20rem; height: 10rem; overflow: auto;">-->
+    <!--      {{JSON.stringify(columnConfigurationsList, null, 2)}}-->
+    <!--    </pre>-->
 
     <button type="button" @click="calculateResult">Calculate result</button>
   </form>
@@ -111,7 +119,6 @@ const calculateResult = (): void => {
   <h2>Result</h2>
 
   <div v-if="columnConfigurationsList.length > 0">
-
     <AutomaticTable
       :list="columnConfigurationsList"
       :caption="`Configurations for ${columnConfigurationsList.length} columns/properties from user defined list of ${userDefinedList.length} items/objects`"
@@ -119,7 +126,6 @@ const calculateResult = (): void => {
   </div>
 
   <div v-if="userDefinedList.length > 0">
-
     <AutomaticTable
       :list="userDefinedList"
       :caption="`User defined list of ${userDefinedList.length} items`"
@@ -142,11 +148,9 @@ form {
 }
 
 @media screen and (min-width: 600px) {
-
   form {
     flex-direction: row;
     flex-wrap: wrap;
   }
 }
-
 </style>

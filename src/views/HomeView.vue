@@ -14,18 +14,20 @@
 
   <p>
     The first embryo of this component library saw the light in December 2024.
-    Currently the following components can be found:
+    Currently the following components and tools can be found:
   </p>
 
   <ul>
     <li>
       <RouterLink :to="{ name: 'Tabular Data' }">Tabular Data</RouterLink>,
-      beautiful tables with sorting, pagination, aggregation and sticky columns. Great for displaying, comparing and analysing structured data.
+      beautiful tables with sorting, pagination, aggregation and sticky columns.
+      Great for displaying, comparing and analysing structured data.
     </li>
 
     <li>
       <RouterLink :to="{ name: 'List Manager' }">List Manager</RouterLink>,
-      automagically creating tables with sorting, pagination, aggregation and sticky columns from any list of JSON objects.
+      automagically creating tables with sorting, pagination, aggregation and
+      sticky columns from any list of JSON objects.
     </li>
   </ul>
 

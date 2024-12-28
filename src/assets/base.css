@@ -11,7 +11,11 @@
   /*--color-background-table-focus: rgb(255, 255, 100, 35%);*/
   --color-background-table-focus: rgb(255, 255, 0, 41%);
   /*--color-background-table-focus-sticky: rgb(255, 255, 100);*/
-  --color-background-table-focus-sticky: rgb(255, 255, 150); /*See https://stackoverflow.com/questions/73584987/how-can-i-convert-a-color-to-a-semi-transparent-version-of-the-same-color-assumi*/
+  --color-background-table-focus-sticky: rgb(
+    255,
+    255,
+    150
+  ); /*See https://stackoverflow.com/questions/73584987/how-can-i-convert-a-color-to-a-semi-transparent-version-of-the-same-color-assumi*/
   --color-background-table-extra-focus: rgb(200, 255, 200);
 
   --section-gap: 10rem;

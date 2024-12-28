@@ -396,7 +396,13 @@ export const createDummyUserList = (): DummyUser[] => {
     (user: DummyUser) => user.lastName,
   );
 
-  const countryCodes: ("SE" | "DK" | "FI" | "NO" | "IS")[] = ["SE", "DK", "FI", "NO", "IS"];
+  const countryCodes: ("SE" | "DK" | "FI" | "NO" | "IS")[] = [
+    "SE",
+    "DK",
+    "FI",
+    "NO",
+    "IS",
+  ];
 
   // const randomNumberOfItems: number = createRandomId(2000) + 100;
   const randomNumberOfItems: number = createRandomId(50) + 100;

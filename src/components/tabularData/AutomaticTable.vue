@@ -96,15 +96,24 @@ watch(
   },
 );
 
-watch(columnConfigurations, (newConfigurations: ColumnConfigurations, oldConfigurations: ColumnConfigurations | undefined) => {
-  console.info(
-    `WATCHING: columnConfigurations updated:`, Object.keys(oldConfigurations || {}), Object.keys(newConfigurations),
-  );
+watch(
+  columnConfigurations,
+  (
+    newConfigurations: ColumnConfigurations,
+    oldConfigurations: ColumnConfigurations | undefined,
+  ) => {
+    console.info(
+      `WATCHING: columnConfigurations updated:`,
+      Object.keys(oldConfigurations || {}),
+      Object.keys(newConfigurations),
+    );
 
-  console.log(`Emitting "modifiedColumnConfigurations"`);
+    console.log(`Emitting "modifiedColumnConfigurations"`);
 
-  emit("modifiedColumnConfigurations", newConfigurations);
-}, {immediate: true});
+    emit("modifiedColumnConfigurations", newConfigurations);
+  },
+  { immediate: true },
+);
 
 const {
   sortedList,
@@ -203,6 +212,7 @@ console.groupEnd();
           >
             {{ totalNumberOfItems }}
           </th>
+
           <th
             v-for="(
               { propertyName, propertyType }, index
@@ -225,6 +235,7 @@ console.groupEnd();
                 <div v-if="currentlySortedOnPropertyName !== propertyName">
                   &UpArrowDownArrow;
                 </div>
+
                 <template v-else>
                   <div v-if="sortOrder === 'ascending'">&DownArrow;</div>
                   <div v-else>&UpArrow;</div>

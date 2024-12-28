@@ -24,12 +24,15 @@ const props = defineProps<{
     </template>
 
     <template v-else-if="props.propertyType === 'percentage'">
-      <template v-if="propertyValue">{{ toFixed
-      ((propertyValue as number) * 100) }}%</template>
+      <template v-if="propertyValue"
+        >{{ toFixed((propertyValue as number) * 100) }}%</template
+      >
     </template>
 
     <template v-else-if="props.propertyType === 'promille'">
-      <template v-if="propertyValue">{{ toFixed((propertyValue as number) * 1000) }}&permil;</template>
+      <template v-if="propertyValue"
+        >{{ toFixed((propertyValue as number) * 1000) }}&permil;</template
+      >
     </template>
 
     <template v-else>

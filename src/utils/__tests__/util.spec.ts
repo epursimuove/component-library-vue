@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { createRandomId, getNumberOfDigits, padStart, toFixed } from "@/utils/util.ts";
+import {
+  createRandomId,
+  getNumberOfDigits,
+  padStart,
+  toFixed,
+} from "@/utils/util.ts";
 
 describe("util.ts", () => {
   describe("createRandomId", () => {
@@ -63,7 +68,6 @@ describe("util.ts", () => {
   });
 
   describe("toFixed", () => {
-
     it("default number of digits", () => {
       expect(toFixed(0)).toBe("0.00");
       expect(toFixed(0.001)).toBe("0.00");
@@ -96,6 +100,5 @@ describe("util.ts", () => {
       expect(toFixed(123.98765, 1)).toBe("124.0");
       expect(toFixed(123.98765, 3)).toBe("123.988");
     });
-
   });
 });

@@ -36,7 +36,7 @@ export type ColumnConfiguration = {
   propertyName: string;
   propertyType: PropertyType;
   label: string;
-  width?: string;
+  widthInPixels?: number;
 };
 
 export type ColumnConfigurations = Record<string, ColumnConfiguration>;
@@ -54,7 +54,7 @@ export type ColumnCalculations = {
   // calculatedColumnWidthsInPixels: Ref<number[], number[]>;
   calculatedColumnStyleForRowNumberColumn: Ref<string>;
   calculatedColumnStyle: Ref<Record<string, string>>;
-  columnConfigurations: ComputedRef<Record<string, ColumnConfiguration>>;
+  columnConfigurations: ComputedRef<ColumnConfigurations>;
 };
 
 export type Sorting = {

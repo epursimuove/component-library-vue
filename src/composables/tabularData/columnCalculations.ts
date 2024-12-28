@@ -2,9 +2,10 @@ import type { ComputedRef, Ref } from "vue";
 import { computed, nextTick, ref } from "vue";
 import type {
   ColumnCalculations,
-  ColumnConfiguration, ColumnConfigurations,
+  ColumnConfiguration,
+  ColumnConfigurations,
   PropertyValue,
-  RowItem
+  RowItem,
 } from "@/types/type.ts";
 import { getPropertyType, prettifyPropertyName } from "@/utils/tabularData.ts";
 
@@ -27,9 +28,9 @@ export function useColumnCalculations(
 
   const calculatedColumnStyleForRowNumberColumn: ComputedRef<string> = computed(
     () => {
-      return calculatedColumnWidthInPixelsForRowNumberColumn.value
-        ? `min-width: ${calculatedColumnWidthInPixelsForRowNumberColumn.value}px; width: ${calculatedColumnWidthInPixelsForRowNumberColumn.value}px; max-width: ${calculatedColumnWidthInPixelsForRowNumberColumn.value}px;`
-        : "";
+      return createStyleForColumn(
+        calculatedColumnWidthInPixelsForRowNumberColumn.value,
+      );
     },
   );
 
@@ -37,14 +38,23 @@ export function useColumnCalculations(
     () => {
       const calculatedColumnStyle: Record<string, string> = {};
 
+      // // NOT WORKING!! Since nothing is triggering.
+      // Object.entries(columnConfigurations.value).forEach(
+      //   ([propertyName, columnConfiguration]): void => {
+      //     calculatedColumnStyle[propertyName] = columnConfiguration.widthInPixels
+      //       ? `min-width: ${columnConfiguration.widthInPixels}px; width: ${columnConfiguration.widthInPixels}px; max-width: ${columnConfiguration.widthInPixels}px;`
+      //       : "";
+      //   },
+      // );
+
       Object.entries(calculatedColumnWidthsInPixels.value).forEach(
         ([propertyName, widthInPixels]): void => {
-          calculatedColumnStyle[propertyName] = widthInPixels
-            ? `min-width: ${widthInPixels}px; width: ${widthInPixels}px; max-width: ${widthInPixels}px;`
-            : "";
+          calculatedColumnStyle[propertyName] =
+            createStyleForColumn(widthInPixels);
         },
       );
 
+      console.table(calculatedColumnStyle);
       return calculatedColumnStyle;
     },
   );
@@ -65,13 +75,15 @@ export function useColumnCalculations(
             tableCellElement.dataset["columnId"];
 
           if (columnPropertyName) {
-            // TODO Are both below needed?!?
-            columnConfigurations.value[columnPropertyName].width =
-              `${Math.ceil(tableCellElement.getBoundingClientRect().width)}px`;
-
-            columnWidthsInPixels[columnPropertyName] = Math.ceil(
+            const columnWidthInPixels = Math.ceil(
               tableCellElement.getBoundingClientRect().width,
             );
+
+            // TODO Are both below needed?!? Seems like that at the moment.
+            columnConfigurations.value[columnPropertyName].widthInPixels =
+              columnWidthInPixels;
+
+            columnWidthsInPixels[columnPropertyName] = columnWidthInPixels;
           }
         },
       );
@@ -109,8 +121,8 @@ export function useColumnCalculations(
     console.groupEnd();
   };
 
-  const columnConfigurations: ComputedRef<ColumnConfigurations> =
-    computed(() => {
+  const columnConfigurations: ComputedRef<ColumnConfigurations> = computed(
+    () => {
       const firstItemInList: RowItem = originalList.value[0]; // TODO Use more values to make a better decision?!?
 
       const objectProperties: [string, PropertyValue][] =
@@ -138,7 +150,14 @@ export function useColumnCalculations(
       console.groupEnd();
 
       return columnConfigurations;
-    });
+    },
+  );
+
+  const createStyleForColumn = (widthInPixels: number | undefined): string => {
+    return widthInPixels
+      ? `min-width: ${widthInPixels}px; width: ${widthInPixels}px; max-width: ${widthInPixels}px;`
+      : "";
+  };
 
   console.groupEnd();
 
